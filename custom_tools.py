@@ -8,14 +8,11 @@ from crewai_tools import (
     WebsiteSearchTool
 )
 
-os.environ["PDF_API_KEY"] = "Your Key"  # Replace with the key if required for PDF tool.
+os.environ["PDF_API_KEY"] = "Your Key" 
 os.environ["OPENAI_API_KEY"] = "Your Key"
-
-
-# Instantiate tools
 pdf_tool = PDFSearchTool()
 txt_tool = TXTSearchTool()
 json_tool = JSONSearchTool()
 mdx_tool = MDXSearchTool()
 file_read_tool = FileReadTool()
-web_search_tool = WebsiteSearchTool()  # New tool instance for website search
+web_search_tool = WebsiteSearchTool() 
