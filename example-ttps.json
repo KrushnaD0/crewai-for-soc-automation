@@ -1,0 +1,52 @@
+[
+  {
+    "tactic": "Initial Access",
+    "technique": "T1110 - Brute Force",
+    "description": "The threat actors gained initial access through a brute force attack against the MSSQL server's \"sa\" account."
+  },
+  {
+    "tactic": "Execution",
+    "technique": "T1059.003 - Command and Scripting Interpreter: PowerShell",
+    "description": "The threat actors used \"xp_cmdshell\" to execute a PowerShell command establishing a connection to their Cobalt Strike command and control server."
+  },
+  {
+    "tactic": "Privilege Escalation",
+    "technique": "T1055.003 - Process Injection: CreateRemoteThread",
+    "description": "The threat actors injected code into the winlogon.exe process, potentially using CreateRemoteThread, to gain elevated privileges."
+  },
+  {
+    "tactic": "Defense Evasion",
+    "technique": "T1086 - Disable Security Tools",
+    "description": "The threat actors disabled antivirus solutions like MalwareBytes, Sophos, and Windows Defender to hinder detection."
+  },
+  {
+    "tactic": "Defense Evasion",
+    "technique": "T1564.001 - Hide Files or Information: File System Metadata Removal",
+    "description": "The threat actors used techniques to remove file system metadata, potentially to hide their presence."
+  },
+  {
+    "tactic": "Defense Evasion",
+    "technique": "T1070 - Indicator Removal from Tools",
+    "description": "The threat actors attempted to remove indicators of their activity from tools and systems."
+  },
+  {
+    "tactic": "Persistence",
+    "technique": "T1027 - Scheduled Task",
+    "description": "The threat actors created scheduled tasks to maintain persistence on the compromised systems."
+  },
+  {
+    "tactic": "Lateral Movement",
+    "technique": "T1070.004 - Remote Service Creation",
+    "description": "The threat actors used Remote Service creation to move laterally from the initial target to domain controllers and file shares."
+  },
+  {
+    "tactic": "Discovery",
+    "technique": "T1047 - Network Service Scanning",
+    "description": "The threat actors conducted network service scanning using Invoke-SMBExec to gather information about the network topology."  
+  },
+  {
+    "tactic": "Impact",
+    "technique": "T1486 - Data Encrypted for Impact",
+    "description": "The threat actors deployed the BlueSky ransomware, encrypting files on the network and causing a significant impact on the organization."
+  }
+]

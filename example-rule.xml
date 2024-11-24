@@ -1,0 +1,87 @@
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<wazuh>
+  <rules>
+    <rule id="1000000" level="5">
+      <description>Brute force attack against MSSQL server's "sa" account.</description>
+      <logsource>mssql</logsource>
+      <select>SELECT * FROM events WHERE event_id=18456 AND user='sa'</select>
+      <decoder>json</decoder>
+      <filter>count gt 10 within 60</filter>  <!-- Threshold: More than 10 failed login attempts in 60 seconds -->
+      <group>initial_access</group>
+      <related_attack>T1110</related_attack>
+    </rule>
+    <rule id="1000001" level="7">
+      <description>Use of xp_cmdshell to execute PowerShell command (potential Cobalt Strike beacon).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4688 AND process='xp_cmdshell' AND command contains 'powershell'</select>
+      <decoder>json</decoder>
+      <group>execution</group>
+      <related_attack>T1059.003</related_attack>
+    </rule>
+    <rule id="1000002" level="9">
+      <description>Suspicious process injection into winlogon.exe (potential CreateRemoteThread).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4688 AND target_process='winlogon.exe' AND source_process NOT IN ('explorer.exe', 'services.exe')</select>
+      <decoder>json</decoder>
+      <group>privilege_escalation</group>
+      <related_attack>T1055.003</related_attack>
+    </rule>
+    <rule id="1000003" level="7">
+      <description>Antivirus software disabled (MalwareBytes, Sophos, Windows Defender).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=1100 AND (description contains 'MalwareBytes' OR description contains 'Sophos' OR description contains 'Windows Defender') AND action='disable'</select>
+      <decoder>json</decoder>
+      <group>defense_evasion</group>
+      <related_attack>T1086</related_attack>
+    </rule>
+    <rule id="1000004" level="6">
+      <description>File system metadata removal detected.</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4656 AND (process contains 'attrib' AND argument contains '-h -s -r') </select> <!-- Example; this is highly dependent on the actual method used -->
+      <decoder>json</decoder>
+      <group>defense_evasion</group>
+      <related_attack>T1564.001</related_attack>
+    </rule>
+    <rule id="1000005" level="7">
+      <description>Potential indicator removal attempt.</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4656 AND (process contains 'cmd' OR process contains 'powershell') AND argument contains 'delete' AND argument contains 'log'</select>  <!--Example; highly context dependent -->
+      <decoder>json</decoder>
+      <group>defense_evasion</group>
+      <related_attack>T1070</related_attack>
+    </rule>
+    <rule id="1000006" level="6">
+      <description>Scheduled task creation detected.</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4698 AND new_task contains 'schtasks'</select>
+      <decoder>json</decoder>
+      <group>persistence</group>
+      <related_attack>T1027</related_attack>
+    </rule>
+    <rule id="1000007" level="8">
+      <description>Remote service creation detected (potential lateral movement).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4688 AND (command contains 'sc create' OR command contains 'srvany.exe')</select>
+      <decoder>json</decoder>
+      <group>lateral_movement</group>
+      <related_attack>T1070.004</related_attack>
+    </rule>
+    <rule id="1000008" level="5">
+      <description>Network service scanning detected (potentially using Invoke-SMBExec).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE event_id=4688 AND command contains 'Invoke-SMBExec'</select>
+      <decoder>json</decoder>
+      <group>discovery</group>
+      <related_attack>T1047</related_attack>
+    </rule>
+    <rule id="1000009" level="9">
+      <description>Ransomware activity detected (BlueSky).</description>
+      <logsource>windows</logsource>
+      <select>SELECT * FROM events WHERE (event_id=4688 AND command contains 'bluesky.exe') OR (event_id=4663 AND filename contains '.encrypted')</select> <!-- Requires adaptation to specific ransomware behavior -->
+      <decoder>json</decoder>
+      <group>impact</group>
+      <related_attack>T1486</related_attack>
+    </rule>
+  </rules>
+</wazuh>
